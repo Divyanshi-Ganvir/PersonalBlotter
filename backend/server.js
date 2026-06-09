@@ -21,6 +21,13 @@ app.post("/api/query", (req, res)=>{
   });
 })
 
+app.post("/api/updates", (req, res) => {
+  const {delayTime, durationTime} = req.body
+  
+  res.json({ message: "Successful connection" });
+})
+
+
 app.listen(5001, () => {
   console.log("Backend running on port 5001");
 });
