@@ -23,14 +23,6 @@ app.post("/api/query", (req, res)=>{
   });
 })
 
-app.post("/api/updates", (req, res) => {
-  const {delayTime, durationTime} = req.body
-  setTimeout(function(){
-    res.json({ message: "Successful connection" });
-  }, 5000)
-  
-})
-
 const server = app.listen(5001, () => {
   console.log("Backend running on port 5001");
 });
@@ -40,10 +32,14 @@ const wss = new WebSocketServer({ server });
 wss.on("connection", (ws) => {
   console.log("Connected to client")
   ws.on("message", (data) => {
-    console.log("data from client : ", data);
+    const {delayTime, durationTime} = JSON.parse(data.toString())
+    console.log("Delay time : ", delayTime);
+    console.log("Duration time : ", durationTime);
     const interval = setInterval(function() {
-      ws.send("repeated message")
-    }, 5000)
+      randomValue = Math.floor(Math.random() * (1000 - 0 + 1)) + 0
+      ws.send(randomValue)
+
+    }, 2000) // 2 seconds 
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocketServer.OPEN) {
         client.send(data);
