@@ -1,0 +1,59 @@
+/* SQLCommandInput.jsx */
+
+.sqlCommandInputForm {
+    padding: 1rem;
+    width: 62.5rem;
+}
+
+input[type="text"]{
+    width: 50rem;
+}
+
+input[type="submit"]{
+    height: 2rem
+}
+
+.sqlForm {
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* DatabaseTable.jsx */
+
+.table {
+  width: 72rem;
+  padding: 1rem;
+  border-radius: 2rem;
+  background-color: white;
+}
+
+/* UpdatesInput.jsx */
+
+.updateInputForms {
+    display: flex;
+    gap: 3rem;
+    padding: 1rem;
+}
+
+.delayInputForm, .durationInputForm {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.startStopButtons{
+    display: flex;
+    padding: 1rem;
+    gap: 2rem;
+}
+
+.startStopButtons button{
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.startStopButtons button:hover{
+    background-color: black;
+    color: white;
+}
