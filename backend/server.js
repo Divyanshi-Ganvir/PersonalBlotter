@@ -6,8 +6,6 @@ const cors = require("cors");
 app.use(cors())
 app.use(express.json());
 const db = new sqlite3.Database("./appDatabase.db");
-db.serialize();
-
 
 app.get("/api", (req, res)=>{
   res.send("From server")
@@ -48,32 +46,25 @@ wss.on("connection", (ws) => {
     console.log("Delay time : ", delayTime);
     console.log("Duration time : ", durationTime);
 
-    timeOut = setTimeout(function(){
-      
-      console.log("Starting timeout")
-        
-      interval = setInterval(function() {
-        randomValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1
-        randomRow = Math.floor(Math.random() * (totalRows - 1 + 1)) + 1
-        console.log(randomRow);
-        db.run("UPDATE Customers SET Updates = (?) where CustomerID = (?)", [randomValue, randomRow], (err) => {
-          if (err) {
-            console.error(err)
-          }
-        });
-        ws.send(randomValue)
-        db.all("SELECT * FROM Customers", [], (err, rows) => {
-          if (err){
-            console.error(err);
-            return;
-          }
-          ws.send(rows);
-        })
+    interval = setInterval(function() {
+      randomValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1
+      randomRow = Math.floor(Math.random() * (totalRows - 1 + 1)) + 1
+      console.log(randomRow);
+      db.run("UPDATE Customers SET Updates = (?) where CustomerID = (?)", [randomValue, randomRow], (err) => {
+        if (err) {
+          console.error(err)
+        }
+      });
+      db.all("SELECT * FROM Customers", [], (err, rows) => {
+        if (err){
+          console.error(err);
+          return;
+        }
+        ws.send(JSON.stringify({CustomerID: randomRow, column: "Updates", value: randomValue}));
+      })
 
-      }, 2000) // 2 seconds 
+    }, delayTime * 1000) 
 
-    }, delayTime * 1000)
-    
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocketServer.OPEN) {
         client.send(data);

@@ -1,17 +1,25 @@
 import { createContext } from "react";
 
-export const webSocketConnection = (delayTime, durationTime) => { // although defined by const, works exactly like a function, both are the same thing. 
+export const webSocketConnection = (delayTime, durationTime, setSharedData) => { // although defined by const, works exactly like a function, both are the same thing. 
     const ws = new WebSocket('ws://localhost:5001'); // Opens the connection to the server
 
     // Handing incoming messages
     ws.onmessage = (event) => {
         console.log(`Received random number: ${event.data}`);
+        const returnedUpdate = JSON.parse(event.data);
+        console.log(returnedUpdate);
+        setSharedData(previous => ({...previous, returnedUpdate}));
+
     };
 
     // Handling connection opening 
     ws.onopen = () => {
         console.log('WebSocket server connection successful');
         ws.send(JSON.stringify({delayTime, durationTime}));
+        setSharedData(previous => ({...previous, send: (message) => ws.send(message),
+            close:() => ws.close(),
+            duration: durationTime
+        }))
     };
 
     // handling connection closure

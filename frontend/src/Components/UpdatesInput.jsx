@@ -19,7 +19,11 @@ function UpdateInput({setSharedData}) {
 
     function callingWCServer(event) {
         event.preventDefault();
-        setSharedData(webSocketConnection(showAfterTime, duration));
+        if (duration > showAfterTime) {
+            alert("Duration time exceeds interval time, please enter a value lower than the Generate every time.");
+            return;
+        }
+        setSharedData(webSocketConnection(showAfterTime, duration, setSharedData));
     }
 
     function closeServer(event) {
@@ -31,7 +35,7 @@ function UpdateInput({setSharedData}) {
     <>
         <div className="updateInputForms">
             <form className="delayInputForm">
-                <label>Show After Time(s):</label>
+                <label>Generate every(s):</label>
                 <input name="delayTime" 
                     placeholder="Enter delay time"
                     type="number"
