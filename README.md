@@ -3,7 +3,7 @@
 #### **Status:** In progress
 
 ### Project Overview: 
-- A full-stack application that displays near-real-time updates in a simulated data displayed in tabular format through a flash visual value change indicator, with input of value change frequency and initial delay time. 
+- A full-stack application that displays near-real-time updates in a simulated data displayed in tabular format through a flash visual value change indicator, with input of value change frequency and displayed change duration. 
 
 ### Steps to get the application starting: 
 1. Clone the repository using the git clone command. 
